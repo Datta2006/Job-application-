@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecell - Job Portal</title>
+    <link rel="stylesheet" href="t.css">
+    <link rel="icon" href="logo.png">
+   
+</head>
+<body style="background-image: url('back.jpg'); background-repeat: no-repeat; background-size: cover;
+background-position: right top;
+background-attachment: scroll; cursor:auto;">
+    <div id="h">
+        <img src="logo.png" id="logo" alt="Ecell Logo">
+       
+        <div class="nav-links">
+            
+            <h4><a href="#home-section">HOME</a></h4>
+            <h4><a href="#job-section">JOBS</a></h4>
+            <h4><a href="#contact-section">CONTACT</a></h4>
+            <h4 id="login-button" onclick="openModal()" style="background-color: aliceblue; border-radius: 10px; color:rgb(0, 0, 0); padding:6px;"><a href="#" style="color:black;">LOGIN</a></h4>
+        </div>
+    </div>
+
+    
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 style="text-align: center; font-size: 1.8em;">Login</h2>
+            <input class="ttt" type="text" id="username" placeholder="Username" required>
+            <input class="ttt" type="password" id="password" placeholder="Password" required>
+            <button onclick="login()">Submit</button>
+            <p id="login-message"></p>
+        </div>
+    </div>
+    
+    <div id="home-section">
+        <h1 style="text-align: center;font-size:2.5em;">HOME</h1>
+
+        <div id="slider-container">
+            <button onclick="sub()" class="b">&lt;</button>
+            <img src="nvdia.png" id="slide" alt="NVIDIA Image" />
+            <button onclick="counter()" class="b">&gt;</button>
+        </div>
+
+       
+    </div>
+
+    <div id="job-section">
+        <h1 style="text-align: center;font-size:2.5em;">Jobs Section</h1>
+
+    <div class="job-card" id="amazon">
+        <p class="job_text" onclick="amazon()">Amazon - Web Developer</p>
+        <p class="job-description" id="am"></p>
+        <button><a href="#" id="aml" class="apply-link"></a></button>
+        
+    </div>
+
+        <div class="job-card"id="google">
+            <p class="job_text" onclick="google()">Google Location: Bangalore - Software Engineer</p>
+            <p id="go"></p>
+            <button><a href="#" id="gol" class="apply-link"></a></button>
+            
+        </div>
+
+        <div id="microsoft">
+            <p class="job_text" onclick="microsoft()">Microsoft Location: Hyderabad - Cloud Architect</p>
+            <p id="ms"></p>
+            <button><a href="#" id="msl" class="apply-link"></a></button>
+            
+        </div>
+
+        <div id="flipkart">
+            <p class="job_text" onclick="flipkart()">Flipkart Location: Mumbai - Mobile App Developer</p>
+            <p id="fl"></p>
+            <button><a href="#" id="fll" class="apply-link"></a></button>
+            
+        </div>
+        <div id="apple">
+            <p class="job_text" onclick="apple()">Apple Location: Bangalore - Data Scientist</p>
+            <p id="ap"></p>
+            <button><a href="#" id="apl" class="apply-link"></a></button>
+            
+        </div>
+    
+        <div id="ibm">
+            <p class="job_text" onclick="ibm()">IBM Location: Pune - DevOps Engineer</p>
+            <p id="ib"></p>
+            <button><a href="#" id="ibl" class="apply-link"></a></button>
+            
+        </div>
+    
+        <div id="deloitte">
+            <p class="job_text" onclick="deloitte()">Deloitte Location: Gurgaon - Business Analyst</p>
+            <p id="de"></p>
+            <button> <a href="#" id="del" class="apply-link"></a></button>
+           
+        </div>
+    
+        <div id="accenture">
+            <p class="job_text" onclick="accenture()">Accenture Location: Hyderabad - IT Consultant</p>
+            <p id="ac"></p>
+            <button><a href="#" id="acl" class="apply-link"></a></button>
+            
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <div id="review-section">
+       
+        <br>
+        <input id="review" type="text" placeholder="Please write your review here" />
+        <br>
+        <br>
+        <button type="submit" onclick="review()">Submit</button>
+        <p id="last"></p>
+    </div>
+
+    <div id="contact-section">
+        <h1>Contact Us</h1>
+        <p>Email: xyz@nitk.edu.in</p>
+        <p>Phone: +91 99999 99999</p>
+        <p>Address: Gandhi nagar, Bangalore</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Ecell. All Rights Reserved.</p>
+    </footer>
+
+    <script src="t.js">
+        
+    </script>
+</body>
+</html>

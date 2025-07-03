@@ -4,133 +4,830 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecell - Job Portal</title>
-    <link rel="stylesheet" href="t.css">
-    <link rel="icon" href="logo.png">
-   
+    <link rel="icon" href="snap/logo.png">
+    <style>
+        body {
+            background-color: #1e1e1e;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        #h {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            flex-wrap: wrap;
+        }
+
+        #logo {
+            height: 80px;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        #logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2em;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #9500ff;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        #login-button {
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 10px;
+            padding: 0.6em 1.2em;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        #login-button:hover {
+            background-color: #9500ff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #2c2c2c;
+            margin: 10% auto;
+            padding: 2em;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: modalopen 0.4s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close {
+            color: #f0e68c;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #ffffff;
+        }
+
+        .ttt {
+            width: 100%;
+            padding: 0.8em;
+            margin: 0.5em 0 1em 0;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        .ttt:focus {
+            outline: none;
+            border-color: #9500ff;
+        }
+
+        button {
+            padding: 0.7em 1.5em;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #007acc;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #005999;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        section {
+            padding: 3em 1em;
+            margin: 1em 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 1em;
+            color: #9500ff;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 1em;
+            color: #ffffff;
+        }
+
+        #slider-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2em auto;
+            max-width: 1200px;
+            position: relative;
+        }
+
+        #slide {
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.5s;
+        }
+
+        .b {
+            position: absolute;
+            height: 50px;
+            width: 50px;
+            background-color: rgba(0, 122, 204, 0.7);
+            color: #ffffff;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .b:hover {
+            background-color: rgba(0, 89, 153, 0.9);
+            transform: scale(1.1);
+        }
+
+        #prev-btn {
+            left: 20px;
+        }
+
+        #next-btn {
+            right: 20px;
+        }
+
+        .job-card {
+            border: 1px solid #444;
+            border-radius: 15px;
+            background-color: #000000;
+            padding: 1.5em;
+            margin: 1.5em auto;
+            max-width: 800px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .job-card:hover {
+            border-color: #9500ff;
+            background-color: #1a1a1a;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(149, 0, 255, 0.2);
+        }
+
+        .job-title {
+            font-size: 1.5em;
+            color: #c6c6c6;
+            cursor: pointer;
+            margin-bottom: 0.5em;
+            font-weight: 600;
+        }
+
+        .job-title:hover {
+            color: #ffffff;
+        }
+
+        .job-description {
+            margin-bottom: 1em;
+            color: #aaaaaa;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 1em;
+            margin-bottom: 1em;
+            flex-wrap: wrap;
+        }
+
+        .job-meta span {
+            background-color: #2c2c2c;
+            padding: 0.3em 0.8em;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .apply-link {
+            display: inline-block;
+            padding: 0.7em 1.5em;
+            background-color: #9500ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .apply-link:hover {
+            background-color: #7a00cc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(149, 0, 255, 0.3);
+        }
+
+        #review-section {
+            background-color: #2c2c2c;
+            padding: 2em;
+            border-radius: 10px;
+            margin: 2em auto;
+            max-width: 800px;
+        }
+
+        #review {
+            width: 100%;
+            padding: 1em;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin-bottom: 1em;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        #review:focus {
+            outline: none;
+            border-color: #9500ff;
+        }
+
+        #contact-section {
+            background-color: #2c2c2c;
+            padding: 2em;
+            border-radius: 10px;
+            margin: 2em auto;
+            max-width: 800px;
+        }
+
+        #contact-section p {
+            margin: 0.5em 0;
+            color: #aaaaaa;
+        }
+
+        footer {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 2em;
+            margin-top: 2em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        ::placeholder {
+            color: #bbbbbb;
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #h {
+                flex-direction: column;
+                text-align: center;
+                gap: 1em;
+            }
+
+            .nav-links {
+                gap: 1em;
+            }
+
+            #slide {
+                max-height: 300px;
+            }
+
+            .b {
+                height: 40px;
+                width: 40px;
+                font-size: 1.2em;
+            }
+
+            .job-card {
+                padding: 1em;
+                margin: 1em auto;
+            }
+
+            section {
+                padding: 2em 1em;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        /* Animation for job cards */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .job-card {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .job-card:nth-child(1) { animation-delay: 0.1s; }
+        .job-card:nth-child(2) { animation-delay: 0.2s; }
+        .job-card:nth-child(3) { animation-delay: 0.3s; }
+        .job-card:nth-child(4) { animation-delay: 0.4s; }
+        .job-card:nth-child(5) { animation-delay: 0.5s; }
+        .job-card:nth-child(6) { animation-delay: 0.6s; }
+        .job-card:nth-child(7) { animation-delay: 0.7s; }
+        .job-card:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #9500ff;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body style="background-image: url('back.jpg'); background-repeat: no-repeat; background-size: cover;
-background-position: right top;
-background-attachment: scroll; cursor:auto;">
+<body>
     <div id="h">
-        <img src="logo.png" id="logo" alt="Ecell Logo">
-       
+        <img src="snap/logo.png" id="logo" alt="Ecell Logo">
         <div class="nav-links">
-            
             <h4><a href="#home-section">HOME</a></h4>
             <h4><a href="#job-section">JOBS</a></h4>
+            <h4><a href="#review-section">REVIEWS</a></h4>
             <h4><a href="#contact-section">CONTACT</a></h4>
-            <h4 id="login-button" onclick="openModal()" style="background-color: aliceblue; border-radius: 10px; color:rgb(0, 0, 0); padding:6px;"><a href="#" style="color:black;">LOGIN</a></h4>
+            <h4 id="login-button" onclick="openModal()">LOGIN</h4>
         </div>
     </div>
 
-    
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 style="text-align: center; font-size: 1.8em;">Login</h2>
+            <h2>Login</h2>
             <input class="ttt" type="text" id="username" placeholder="Username" required>
             <input class="ttt" type="password" id="password" placeholder="Password" required>
             <button onclick="login()">Submit</button>
-            <p id="login-message"></p>
+            <p id="login-message" style="margin-top: 1em;"></p>
+            <div class="spinner" id="login-spinner"></div>
         </div>
     </div>
     
-    <div id="home-section">
-        <h1 style="text-align: center;font-size:2.5em;">HOME</h1>
-
+    <section id="home-section">
+        <h1>Welcome to Ecell Job Portal</h1>
         <div id="slider-container">
-            <button onclick="sub()" class="b">&lt;</button>
-            <img src="nvdia.png" id="slide" alt="NVIDIA Image" />
-            <button onclick="counter()" class="b">&gt;</button>
+            <button id="prev-btn" class="b" onclick="sub()">&lt;</button>
+            <img src="snap/nvdia.png" id="slide" alt="Featured Company">
+            <button id="next-btn" class="b" onclick="counter()">&gt;</button>
+        </div>
+        <div style="text-align: center; margin-top: 1em;">
+            <span id="sl" style="font-weight: bold;"></span> - <span id="s"></span>
+        </div>
+    </section>
+
+    <section id="job-section">
+        <h1>Featured Job Opportunities</h1>
+
+        <div class="job-card" id="amazon">
+            <p class="job-title" onclick="amazon()">Amazon - Web Developer</p>
+            <div class="job-meta">
+                <span>📍 Bangalore</span>
+                <span>💻 IT</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="am"></p>
+            <a href="#" id="aml" class="apply-link">Apply Now</a>
         </div>
 
-       
-    </div>
-
-    <div id="job-section">
-        <h1 style="text-align: center;font-size:2.5em;">Jobs Section</h1>
-
-    <div class="job-card" id="amazon">
-        <p class="job_text" onclick="amazon()">Amazon - Web Developer</p>
-        <p class="job-description" id="am"></p>
-        <button><a href="#" id="aml" class="apply-link"></a></button>
-        
-    </div>
-
-        <div class="job-card"id="google">
-            <p class="job_text" onclick="google()">Google Location: Bangalore - Software Engineer</p>
-            <p id="go"></p>
-            <button><a href="#" id="gol" class="apply-link"></a></button>
-            
+        <div class="job-card" id="google">
+            <p class="job-title" onclick="google()">Google - Software Engineer</p>
+            <div class="job-meta">
+                <span>📍 Bangalore</span>
+                <span>💻 IT</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="go"></p>
+            <a href="#" id="gol" class="apply-link">Apply Now</a>
         </div>
 
-        <div id="microsoft">
-            <p class="job_text" onclick="microsoft()">Microsoft Location: Hyderabad - Cloud Architect</p>
-            <p id="ms"></p>
-            <button><a href="#" id="msl" class="apply-link"></a></button>
-            
+        <div class="job-card" id="microsoft">
+            <p class="job-title" onclick="microsoft()">Microsoft - Cloud Architect</p>
+            <div class="job-meta">
+                <span>📍 Hyderabad</span>
+                <span>☁️ Cloud</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="ms"></p>
+            <a href="#" id="msl" class="apply-link">Apply Now</a>
         </div>
 
-        <div id="flipkart">
-            <p class="job_text" onclick="flipkart()">Flipkart Location: Mumbai - Mobile App Developer</p>
-            <p id="fl"></p>
-            <button><a href="#" id="fll" class="apply-link"></a></button>
-            
+        <div class="job-card" id="flipkart">
+            <p class="job-title" onclick="flipkart()">Flipkart - Mobile App Developer</p>
+            <div class="job-meta">
+                <span>📍 Mumbai</span>
+                <span>📱 Mobile</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="fl"></p>
+            <a href="#" id="fll" class="apply-link">Apply Now</a>
         </div>
-        <div id="apple">
-            <p class="job_text" onclick="apple()">Apple Location: Bangalore - Data Scientist</p>
-            <p id="ap"></p>
-            <button><a href="#" id="apl" class="apply-link"></a></button>
-            
-        </div>
-    
-        <div id="ibm">
-            <p class="job_text" onclick="ibm()">IBM Location: Pune - DevOps Engineer</p>
-            <p id="ib"></p>
-            <button><a href="#" id="ibl" class="apply-link"></a></button>
-            
-        </div>
-    
-        <div id="deloitte">
-            <p class="job_text" onclick="deloitte()">Deloitte Location: Gurgaon - Business Analyst</p>
-            <p id="de"></p>
-            <button> <a href="#" id="del" class="apply-link"></a></button>
-           
-        </div>
-    
-        <div id="accenture">
-            <p class="job_text" onclick="accenture()">Accenture Location: Hyderabad - IT Consultant</p>
-            <p id="ac"></p>
-            <button><a href="#" id="acl" class="apply-link"></a></button>
-            
-        </div>
-    </div>
-    <br>
-    <br>
 
-    <div id="review-section">
-       
-        <br>
-        <input id="review" type="text" placeholder="Please write your review here" />
-        <br>
-        <br>
-        <button type="submit" onclick="review()">Submit</button>
-        <p id="last"></p>
-    </div>
+        <div class="job-card" id="apple">
+            <p class="job-title" onclick="apple()">Apple - Data Scientist</p>
+            <div class="job-meta">
+                <span>📍 Bangalore</span>
+                <span>📊 Data Science</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="ap"></p>
+            <a href="#" id="apl" class="apply-link">Apply Now</a>
+        </div>
 
-    <div id="contact-section">
+        <div class="job-card" id="ibm">
+            <p class="job-title" onclick="ibm()">IBM - DevOps Engineer</p>
+            <div class="job-meta">
+                <span>📍 Pune</span>
+                <span>🛠️ DevOps</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="ib"></p>
+            <a href="#" id="ibl" class="apply-link">Apply Now</a>
+        </div>
+
+        <div class="job-card" id="deloitte">
+            <p class="job-title" onclick="deloitte()">Deloitte - Business Analyst</p>
+            <div class="job-meta">
+                <span>📍 Gurgaon</span>
+                <span>📈 Business</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="de"></p>
+            <a href="#" id="del" class="apply-link">Apply Now</a>
+        </div>
+
+        <div class="job-card" id="accenture">
+            <p class="job-title" onclick="accenture()">Accenture - IT Consultant</p>
+            <div class="job-meta">
+                <span>📍 Hyderabad</span>
+                <span>💼 Consulting</span>
+                <span>⏱️ Full-time</span>
+                <span>💰 Competitive Salary</span>
+            </div>
+            <p class="job-description" id="ac"></p>
+            <a href="#" id="acl" class="apply-link">Apply Now</a>
+        </div>
+    </section>
+
+    <section id="review-section">
+        <h1>Share Your Experience</h1>
+        <textarea id="review" placeholder="Please write your review here..."></textarea>
+        <button type="submit" onclick="review()">Submit Review</button>
+        <p id="last" style="margin-top: 1em;"></p>
+    </section>
+
+    <section id="contact-section">
         <h1>Contact Us</h1>
-        <p>Email: xyz@nitk.edu.in</p>
-        <p>Phone: +91 99999 99999</p>
-        <p>Address: Gandhi nagar, Bangalore</p>
-    </div>
+        <p>📧 Email: careers@ecell-nitk.edu.in</p>
+        <p>📞 Phone: +91 98765 43210</p>
+        <p>🏢 Address: E-Cell Office, NITK Surathkal, Mangalore - 575025</p>
+        <div style="margin-top: 1.5em;">
+            <a href="#" style="color: #9500ff; margin-right: 1em;">LinkedIn</a>
+            <a href="#" style="color: #9500ff; margin-right: 1em;">Twitter</a>
+            <a href="#" style="color: #9500ff;">Instagram</a>
+        </div>
+    </section>
 
     <footer>
-        <p>&copy; 2024 Ecell. All Rights Reserved.</p>
+        <p>&copy; 2024 Ecell NITK. All Rights Reserved.</p>
+        <p style="margin-top: 0.5em; font-size: 0.9em;">Designed with ❤️ by Ecell Web Team</p>
     </footer>
 
-    <script src="t.js">
-        
+    <script>
+        let l = 1;
+        const slides = [
+            {src: "snap/nvdia.png", label: "NVIDIA", count: "1 of 4"},
+            {src: "snap/amazon.jpg", label: "Amazon", count: "2 of 4"},
+            {src: "snap/google.jpeg", label: "Google", count: "3 of 4"},
+            {src: "snap/flipkart.png", label: "Flipkart", count: "4 of 4"}
+        ];
+
+        function update() {
+            const slide = slides[l - 1];
+            document.getElementById("slide").src = slide.src;
+            document.getElementById("sl").innerText = slide.label;
+            document.getElementById("s").innerText = slide.count;
+            
+            // Add fade effect
+            document.getElementById("slide").style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById("slide").style.opacity = 1;
+            }, 100);
+        }
+
+        function counter() {
+            if (l < 4) {
+                l++;
+            } else {
+                l = 1;
+            }
+            update();
+        }
+
+        function sub() {
+            if (l > 1) {
+                l--;
+            } else {
+                l = 4;
+            }
+            update();
+        }
+
+        // Auto slide change every 5 seconds
+        let slideInterval = setInterval(counter, 5000);
+
+        // Pause on hover
+        document.getElementById("slider-container").addEventListener("mouseenter", () => {
+            clearInterval(slideInterval);
+        });
+
+        document.getElementById("slider-container").addEventListener("mouseleave", () => {
+            slideInterval = setInterval(counter, 5000);
+        });
+
+        // Initialize job descriptions
+        function initJobs() {
+            amazon();
+            google();
+            microsoft();
+            flipkart();
+            apple();
+            ibm();
+            deloitte();
+            accenture();
+        }
+
+        function amazon() {
+            document.getElementById("am").innerHTML = 
+                "Amazon is looking for a skilled Web Developer to join their team in Bangalore. The ideal candidate will have:<br><br>" +
+                "✔ 3+ years of experience in front-end development<br>" +
+                "✔ Strong knowledge of HTML, CSS, JavaScript, and React<br>" +
+                "✔ Experience with AWS services<br>" +
+                "✔ Bachelor's degree in Computer Science or related field<br><br>" +
+                "This position offers competitive salary, health benefits, and opportunities for career growth in a fast-paced environment.";
+        }
+
+        function google() {
+            document.getElementById("go").innerHTML = 
+                "Google is hiring a Software Engineer for their Bangalore office. Requirements include:<br><br>" +
+                "✔ Strong expertise in Python and cloud computing<br>" +
+                "✔ Experience with distributed systems and algorithms<br>" +
+                "✔ 2+ years of professional software development experience<br>" +
+                "✔ Excellent problem-solving skills<br><br>" +
+                "Google offers an inclusive work environment, comprehensive benefits, and opportunities to work on cutting-edge technologies.";
+        }
+
+        function microsoft() {
+            document.getElementById("ms").innerHTML = 
+                "Microsoft is seeking a Cloud Architect in Hyderabad with:<br><br>" +
+                "✔ 5+ years of experience with Azure cloud services<br>" +
+                "✔ Certifications in Azure Architecture preferred<br>" +
+                "✔ Strong understanding of cloud security best practices<br>" +
+                "✔ Experience leading technical teams<br><br>" +
+                "This role involves designing scalable cloud solutions and working with enterprise clients.";
+        }
+
+        function flipkart() {
+            document.getElementById("fl").innerHTML = 
+                "Flipkart is looking for a Mobile App Developer in Mumbai with:<br><br>" +
+                "✔ Proficiency in Android and iOS development<br>" +
+                "✔ Experience with Kotlin/Swift and React Native<br>" +
+                "✔ Strong UI/UX design skills<br>" +
+                "✔ 2+ years of mobile development experience<br><br>" +
+                "Join Flipkart's innovative team to build apps used by millions of customers across India.";
+        }
+
+        function apple() {
+            document.getElementById("ap").innerHTML = 
+                "Apple is hiring a Data Scientist for their Bangalore team. The role requires:<br><br>" +
+                "✔ Advanced degree in Statistics, CS, or related field<br>" +
+                "✔ Expertise in machine learning algorithms<br>" +
+                "✔ Proficiency in Python/R and SQL<br>" +
+                "✔ 3+ years of data analysis experience<br><br>" +
+                "Work on challenging problems using Apple's unique datasets to improve products and services.";
+        }
+
+        function ibm() {
+            document.getElementById("ib").innerHTML = 
+                "IBM is seeking a DevOps Engineer in Pune with:<br><br>" +
+                "✔ Experience with CI/CD pipelines and automation tools<br>" +
+                "✔ Knowledge of Docker, Kubernetes, and cloud platforms<br>" +
+                "✔ Strong scripting skills (Bash, Python)<br>" +
+                "✔ 2+ years in DevOps or related role<br><br>" +
+                "This position focuses on streamlining operations and enhancing software delivery processes.";
+        }
+
+        function deloitte() {
+            document.getElementById("de").innerHTML = 
+                "Deloitte is looking for a Business Analyst in Gurgaon. Requirements include:<br><br>" +
+                "✔ MBA or equivalent business degree<br>" +
+                "✔ 2+ years consulting or business analysis experience<br>" +
+                "✔ Strong analytical and presentation skills<br>" +
+                "✔ Ability to work with cross-functional teams<br><br>" +
+                "This role involves supporting strategic projects for Fortune 500 clients across industries.";
+        }
+
+        function accenture() {
+            document.getElementById("ac").innerHTML = 
+                "Accenture is hiring an IT Consultant for their Hyderabad office. The ideal candidate has:<br><br>" +
+                "✔ 3+ years IT consulting experience<br>" +
+                "✔ Knowledge of enterprise software solutions<br>" +
+                "✔ Excellent communication and client management skills<br>" +
+                "✔ Willingness to travel as needed<br><br>" +
+                "Help clients transform their businesses through innovative technology solutions.";
+        }
+
+        // Initialize apply links
+        function initApplyLinks() {
+            document.getElementById("aml").href = "https://www.amazon.jobs/en/landing_pages/online-application";
+            document.getElementById("gol").href = "https://careers.google.com";
+            document.getElementById("msl").href = "https://careers.microsoft.com";
+            document.getElementById("fll").href = "https://www.flipkartcareers.com";
+            document.getElementById("apl").href = "https://www.apple.com/jobs/us/";
+            document.getElementById("ibl").href = "https://www.ibm.com/employment/";
+            document.getElementById("del").href = "https://www2.deloitte.com/global/en/careers/job-search.html";
+            document.getElementById("acl").href = "https://www.accenture.com/us-en/careers";
+        }
+
+        function review() {
+            const reviewInput = document.getElementById("review").value.trim();
+            if (reviewInput !== "") {
+                document.getElementById("last").innerHTML = 
+                    "<span style='color: #4CAF50;'>✓ Thank you for your valuable feedback!</span><br>" +
+                    "We appreciate you taking the time to share your experience with us.";
+                console.log("Review submitted: ", reviewInput);
+                document.getElementById("review").value = "";
+                
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById("last").innerText = "";
+                }, 5000);
+            } else {
+                document.getElementById("last").innerHTML = 
+                    "<span style='color: #f44336;'>Please enter a valid review before submitting.</span>";
+            }
+        }
+
+        function openModal() {
+            document.getElementById("loginModal").style.display = "block";
+            document.getElementById("username").focus();
+        }
+
+        function closeModal() {
+            document.getElementById("loginModal").style.display = "none";
+            document.getElementById("login-message").innerText = "";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+
+        function login() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const spinner = document.getElementById("login-spinner");
+
+            if (!username || !password) {
+                document.getElementById("login-message").innerHTML = 
+                    "<span style='color: #f44336;'>Please enter both username and password.</span>";
+                return;
+            }
+
+            // Show loading spinner
+            spinner.style.display = "block";
+            document.getElementById("login-message").innerText = "";
+
+            // Simulate login process
+            setTimeout(() => {
+                spinner.style.display = "none";
+                
+                if (username === "admin" && password === "admin123") {
+                    document.getElementById("login-message").innerHTML = 
+                        "<span style='color: #4CAF50;'>Login successful! Redirecting...</span>";
+                    document.getElementById("login-button").innerHTML = 
+                        `👤 ${username.charAt(0).toUpperCase() + username.slice(1)}`;
+                    
+                    // Close modal after 1 second
+                    setTimeout(closeModal, 1000);
+                } else {
+                    document.getElementById("login-message").innerHTML = 
+                        "<span style='color: #f44336;'>Invalid credentials. Please try again.</span>";
+                }
+            }, 1500);
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target === document.getElementById("loginModal")) {
+                closeModal();
+            }
+        };
+
+        // Initialize on page load
+        window.onload = function() {
+            update();
+            initJobs();
+            initApplyLinks();
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        };
+
+        // Keyboard navigation for slider
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "ArrowRight") {
+                counter();
+            } else if (e.key === "ArrowLeft") {
+                sub();
+            }
+        });
     </script>
 </body>
 </html>
